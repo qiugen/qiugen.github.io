@@ -1,0 +1,80 @@
+<!DOCTYPE html><html lang="default"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="enjoy"><title>[笔记]Large-scale behavioral user targeting | Shawn其实不错</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/4.2.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[笔记]Large-scale behavioral user targeting</h1><a id="logo" href="/.">Shawn其实不错</a><p class="description">无止境探索，保持渴望，无所畏惧</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[笔记]Large-scale behavioral user targeting</h1><div class="post-meta">Sep 3, 2016<span> | </span><span class="category"><a href="/categories/机器学习/">机器学习</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-thread-key="2016/09/03/Large-scale-behavioral-user-targeting/" href="/2016/09/03/Large-scale-behavioral-user-targeting/#comments" class="ds-thread-count"></a><div class="post-content"><p>论文作者：Ye Chen, Dmitry Pavlovy, John Cannyz</p>
+<p>用户行为定向的目的是根据用户的历史行为，来选择最合适的广告投放，按如下思路介绍：</p>
+<ul>
+<li>模型、目标、算法</li>
+<li>大规模数据上的应用技巧<ul>
+<li>数据压缩</li>
+<li>特征选择和变换</li>
+<li>生成训练集合测试集</li>
+<li>并行的Multiplicative迭代</li>
+</ul>
+</li>
+<li>实验设定&amp;结论</li>
+</ul>
+<h4 id="模型、目标、算法"><a href="#模型、目标、算法" class="headerlink" title="模型、目标、算法"></a>模型、目标、算法</h4><h5 id="a-模型"><a href="#a-模型" class="headerlink" title="a.模型"></a>a.模型</h5>
+$$p(y) = \frac{{{\lambda ^y}\exp \left( { - \lambda } \right)}}{{y!}},\; {\lambda _i}={w^T}{x_i} $$
+
+$y$:预测CTR(click-through rate)，即用户某个特定类别上的点击率。
+
+$x$:表示广告的点击, 用户的浏览行为，也可以购买、搜索等等行为。
+
+$\lambda_t$:为相应的控制点击行为到达频繁性的参数。
+点击行为是离散到达的随机变量，对数量最自然的描述规则是泊松分布。
+
+<h5 id="b-目标"><a href="#b-目标" class="headerlink" title="b.目标"></a>b.目标</h5><p>优化目标：<br>最大化似然函数：<br>
+$$
+\prod\limits_i^n {p\left( {{{\mathbf{y}}_i}} \right)}  = \prod\limits_i^n {\frac{{{{\left( {{{\mathbf{w}}^T}{{\mathbf{x}}_i}} \right)}^{{{\mathbf{y}}_i}}}\exp \left( { - {{\mathbf{w}}^T}{{\mathbf{x}}_i}} \right)}}{{{{\mathbf{y}}_i}!}}} 
+$$
+转求常用log似然：
+$$l\left( y \right) = \log L\left( y \right) = \sum\limits_i^{} {\left( {{y_i}\log \left( \lambda  \right) - \lambda  - \log \left( {{y_i}!} \right)} \right)} $$
+</p>
+<h5 id="c-算法"><a href="#c-算法" class="headerlink" title="c.算法"></a>c.算法</h5>
+ 1.梯度下降gd, 2.bfgs 3.multiplicative rule.
+ 梯度下降更新规则：
+ $$\Delta w = \frac{{\partial l\left( y \right)}}{{\partial {w_j}}} = \sum\limits_i {\left( {\frac{{{y_i}}}{{{\lambda _i}}}{x_{ij}} - {x_{ij}}} \right)} $$
+ (作者实际上采用multiplicative进行迭代，15-20轮收敛)
+ 
+ CTR公式：
+ $$CT{R_{ik}} = \frac{{\lambda _{ik}^{click} + \alpha }}{{\lambda _{ik}^{view} + \beta }}$$
+ 
+<ul>
+<li>符号说明：$i,j,k$分别表示用户，特征，广告类型</li>
+<li>注1:训练数据平滑，对于CTR公式的$\alpha \beta$`按每个类别计算，结果为给新用户推荐最热的类别。</li>
+<li>注2:$\lambda  = {w^T}x$为什么不用指数型$bda  = \exp \left( {{w^T}x} \right)$，使用线性形式。初衷是方便在线计算,对于新的线上用户行为，$bda ' = \lambda {\delta ^{\Delta t}} + {w_j}\Delta {x_j}$</li>
+<li>注3:为什么用NMF，W用来表示用户兴趣权重的，如果用户对某类广告不感兴趣，我们把它调为零即可。</li>
+<li>注4：对于每个特征的权重$w_kj$的初始化可以用两种方式进行，<ul>
+<li>a.类似TF-IDF：$${w_{kj}} \leftarrow \frac{{\sum\nolimits_i {\frac{{{y_{ik}}{x_{ij}}}}{{\sum\nolimits_{j'} {{x_{ij'}}} }}} }}{{\sum\nolimits_i {{x_{ij}}} }}$$</li>
+<li>b.全局类别上进行$${w_{kj}} \leftarrow \frac{{\sum\nolimits_i {\left( {{y_{ik}}{x_{ij}}} \right)\sum\nolimits_i {\left( {{y_{ik}}} \right)} } }}{{\sum\nolimits_{j'} {\left[ {\sum\nolimits_i {{y_{ik}}{x_{ij'}}} \sum\nolimits_i {{x_{ij'}}} } \right]} }}$$<br>b的思考出发点是部分类别的模型训练时间较长，给一个较适合的初值，可能使得整体迭代数据速度变快。</li>
+</ul>
+</li>
+</ul>
+<p>#####大规模数据的应用技巧<br>1.log数据的预处理，指定数据的字段抽取，以cookie为单位合并数据。<br>2.再以用户和时间为组合键，按时间间隔合并次数 ，这里时间间隔需要和模型所需一致。一个月的数据能减少到2-3TB(这里尚未进行广告分类)</p>
+<p>#####特征选择和反向索引<br>广告点击、页面浏览、和搜索query，这些特征空间比较复杂和稀疏，作者使用频次阈值进行筛选，得到（特征类型 click / search / view，实体entity，freq）组合，不选择互信息，互信息容易受数据稀疏影响。最后输出为3类特征的词典，从实验配置可以认为是ad_id、page_id、query，三种词典。得到上述词典以后，特征向量可以用(下标，值)的形式存储，下标指词典的偏移。<br>trick 1.特征过滤卡频次用cookie为单位计数的原因是防爬虫<br>trick 2.直接对特征卡频次，这样无需做排序取topN<br>trick 3.在无需排序归并的阶段，reducer可以用值排序。这样避免对复杂key进行排序，增加时耗</p>
+<p>#####生成训练集合测试集<br>如图显示，通过滑动窗口的采集方式，可以在$o(1)$的时间内完成特征数据的生成。<br><img src="upload/1472867063488.png" alt="Alt text"></p>
+<p>#####数据驱动的权重更新<br>这里主要提及下权重更新的并行化<br>
+1.通过一个稀疏矩阵D，我们想估计一个dense的权重矩阵W。给定$Y$,$X$，求得$\arg {\max _w}\log p\left( {{Y^T}|W{X^T}} \right)$的解$W^*$. （按：这里和目标log-似然函数的联系还需要再思考一下）
+2.${Y^T} \approx W{X^T}$，可以复用NMF非负矩阵分解中的高效乘法方式，通过log似然进行约束。
+a. W是dense的矩阵，因为集群节点内存限制，我们需要拆开读入。由于拆以后计算$W{X^T}$复杂度较高，引入下一步的内存caching
+b. In-memory Caching.对样本xy进行cache，预先求得cache内数据的 $\sum\nolimits_i {\frac{{{y_{ik}}{x_{ij}}}}{{{\lambda _{ik}}}}} $向后传递。
+c. 按k为key进行reduce，最后累积更新到权重$W$。伪代码在论文4.5.3节
+<br><img src="upload/1472873709199.png" alt="Alt text"></p>
+<p>#####实验部分：</p>
+<ul>
+<li>数据和参数<br>a.数据来源，广告点击，页面浏览，搜索query<br>b.效果衡量方式，1.baseline对比，见下表CTR lift，2.ROC曲线比较。60种主要BT行为</li>
+<li>基线模型： Logistic Regression，分别为两个模型的结果积在一起，一部分预测下一天的点击，一部分预测下一小时点击。<br>#####实验结果：<br>a.数据量方面：<br><img src="upload/1472876302964.png" alt="Alt text"><br>数据均分为512份，训练集不同的量带来的效果如图。<br>b.特征方面比较：<br><img src="upload/1472876288856.png" alt="Alt text"><br>（PS.之所以控制特征为ads和pages变化是因为，query在点击预估的影响比较小）<br>（之前的加速措施使得训练时间有不受特征数目显著影响的特性）<br>c.target时间窗方面比较（意义可能不大，略）：<br>d.分层抽样的效果<br>用户分三类：1.有点击行为 2.无广告点击，有广告view。3.广告点击和广告view都无<br>需要对后两类用户进行采样，第一栏的数字代表采样率。<br><img src="upload/1472878435652.png" alt="Alt text"><br>(负样本只对分母有影响，而且是提前算好的。结果看一个较小的neg采样组合一个较大的view采样可以带来一个比较好的效果)</li>
+</ul>
+<p>e.引入时间间隙，模拟训练。<br>因为在线的训练的时候，有data延迟，在特征时间窗和目标时间窗中间插入一个间隙。带来的效果对比，右边是模拟在线的时候的效果<br><img src="upload/1472878488312.png" alt="Alt text"><br>可以看到如果无间隙的时候，CTR有显著收益，说明实时的特征对CTR预估影响较大。</p>
+<p>总结：作者根据用户历史行为预测用户对不同类别广告的CTR，同时给了在大规模数据上的实现框架。<br>（summarizes by：shawn_xiao@baidu）</p>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2016/09/03/Large-scale-behavioral-user-targeting/" data-id="cisn61o8o0000r8lp0k98qyuy" class="article-share-link">Aktie</a><div class="tags"><a href="/tags/user-targeting/">user targeting</a><a href="/tags/advertisement/">advertisement</a></div><div class="post-nav"><a href="/2016/09/03/hello-world/" class="pre">Hello World</a><a href="/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" class="next">[笔记]Training Products of Experts by Minimizing Contrastive Divergence</a></div><div data-thread-key="2016/09/03/Large-scale-behavioral-user-targeting/" data-title="[笔记]Large-scale behavioral user targeting" data-url="http://yoursite.com/2016/09/03/Large-scale-behavioral-user-targeting/" class="ds-share flat"><div class="ds-share-inline"><ul class="ds-share-icons-16"><li data-toggle="ds-share-icons-more"><a href="javascript:void(0);" class="ds-more">分享到：</a></li><li><a href="javascript:void(0);" data-service="weibo" class="ds-weibo">微博</a></li><li><a href="javascript:void(0);" data-service="qzone" class="ds-qzone">QQ空间</a></li><li><a href="javascript:void(0);" data-service="qqt" class="ds-qqt">腾讯微博</a></li><li><a href="javascript:void(0);" data-service="wechat" class="ds-wechat">微信</a></li></ul><div class="ds-share-icons-more"></div></div></div><div data-thread-key="2016/09/03/Large-scale-behavioral-user-targeting/" data-title="[笔记]Large-scale behavioral user targeting" data-url="http://yoursite.com/2016/09/03/Large-scale-behavioral-user-targeting/" data-author-key="1" class="ds-thread"></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://yoursite.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/user-targeting/" style="font-size: 15px;">user targeting</a> <a href="/tags/advertisement/" style="font-size: 15px;">advertisement</a> <a href="/tags/RBMs/" style="font-size: 15px;">RBMs</a> <a href="/tags/deep-learning/" style="font-size: 15px;">deep learning</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/徐志摩诗一首/">再休怪我的脸沉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/Large-scale-behavioral-user-targeting/">[笔记]Large-scale behavioral user targeting</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/">[笔记]Training Products of Experts by Minimizing Contrastive Divergence</a></li></ul></div><div class="widget"><div class="comments-title"><i class="fa fa-comment-o"> Letzte Kommentare</i></div><div data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="0" data-excerpt-length="32" data-show-title="1" class="ds-recent-comments"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">Shawn其实不错.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script>var duoshuoQuery = {short_name:'qiugen'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>

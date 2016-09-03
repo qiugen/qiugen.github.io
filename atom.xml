@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/"/>
-  <updated>2016-09-03T08:56:13.587Z</updated>
+  <updated>2016-09-03T10:16:07.630Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>再休怪我的脸沉</title>
+    <link href="http://yoursite.com/2016/09/03/%E5%BE%90%E5%BF%97%E6%91%A9%E8%AF%97%E4%B8%80%E9%A6%96/"/>
+    <id>http://yoursite.com/2016/09/03/徐志摩诗一首/</id>
+    <published>2016-09-03T10:09:55.017Z</published>
+    <updated>2016-09-03T10:16:07.630Z</updated>
+    
+    <content type="html"><![CDATA[<p>徐志摩诗集《翡冷翠的夜》中诗一首  </p>
+<blockquote>
+<p>再休怪我的脸沉</p>
+<p>不要着恼，乖乖，不要怪嫌<br>我的脸绷得直长，<br>我的脸绷得是长，<br>可不是对你，对恋爱生厌。  </p>
+<p>不要凭空往大坑里盲跳：<br>胡猜是一个大坑，<br>这里面坑得死人；<br>你听我讲，乖，用不着烦恼。  </p>
+<p>你，我的恋爱，早就不是你：<br>你我早变成一身，<br>呼吸，命运，灵魂——<br>再没有力量把你我分离。  </p>
+<p>你我比是桃花接上竹叶，<br>露水合着嘴唇吃，<br>经脉胶成同命丝，<br>单等春风到开一个满艳。 </p>
+</blockquote>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;徐志摩诗集《翡冷翠的夜》中诗一首  &lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;再休怪我的脸沉&lt;/p&gt;
+&lt;p&gt;不要着恼，乖乖，不要怪嫌&lt;br&gt;我的脸绷得直长，&lt;br&gt;我的脸绷得是长，&lt;br&gt;可不是对你，对恋爱生厌。  &lt;/p&gt;
+&lt;p&gt;不要凭空往大坑里盲跳：&lt;br&gt;胡猜是一个大
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>
@@ -39,6 +69,191 @@
     
     </summary>
     
+    
+  </entry>
+  
+  <entry>
+    <title>[笔记]Large-scale behavioral user targeting</title>
+    <link href="http://yoursite.com/2016/09/03/Large-scale-behavioral-user-targeting/"/>
+    <id>http://yoursite.com/2016/09/03/Large-scale-behavioral-user-targeting/</id>
+    <published>2016-09-02T16:00:00.000Z</published>
+    <updated>2016-09-03T12:13:49.845Z</updated>
+    
+    <content type="html"><![CDATA[<p>论文作者：Ye Chen, Dmitry Pavlovy, John Cannyz</p>
+<p>用户行为定向的目的是根据用户的历史行为，来选择最合适的广告投放，按如下思路介绍：</p>
+<ul>
+<li>模型、目标、算法</li>
+<li>大规模数据上的应用技巧<ul>
+<li>数据压缩</li>
+<li>特征选择和变换</li>
+<li>生成训练集合测试集</li>
+<li>并行的Multiplicative迭代</li>
+</ul>
+</li>
+<li>实验设定&amp;结论</li>
+</ul>
+<h4 id="模型、目标、算法"><a href="#模型、目标、算法" class="headerlink" title="模型、目标、算法"></a>模型、目标、算法</h4><h5 id="a-模型"><a href="#a-模型" class="headerlink" title="a.模型"></a>a.模型</h5>
+$$p(y) = \frac{{{\lambda ^y}\exp \left( { - \lambda } \right)}}{{y!}},\; {\lambda _i}={w^T}{x_i} $$
+
+$y$:预测CTR(click-through rate)，即用户某个特定类别上的点击率。
+
+$x$:表示广告的点击, 用户的浏览行为，也可以购买、搜索等等行为。
+
+$\lambda_t$:为相应的控制点击行为到达频繁性的参数。
+点击行为是离散到达的随机变量，对数量最自然的描述规则是泊松分布。
+
+<h5 id="b-目标"><a href="#b-目标" class="headerlink" title="b.目标"></a>b.目标</h5><p>优化目标：<br>最大化似然函数：<br>
+$$
+\prod\limits_i^n {p\left( {{{\mathbf{y}}_i}} \right)}  = \prod\limits_i^n {\frac{{{{\left( {{{\mathbf{w}}^T}{{\mathbf{x}}_i}} \right)}^{{{\mathbf{y}}_i}}}\exp \left( { - {{\mathbf{w}}^T}{{\mathbf{x}}_i}} \right)}}{{{{\mathbf{y}}_i}!}}} 
+$$
+转求常用log似然：
+$$l\left( y \right) = \log L\left( y \right) = \sum\limits_i^{} {\left( {{y_i}\log \left( \lambda  \right) - \lambda  - \log \left( {{y_i}!} \right)} \right)} $$
+</p>
+<h5 id="c-算法"><a href="#c-算法" class="headerlink" title="c.算法"></a>c.算法</h5>
+ 1.梯度下降gd, 2.bfgs 3.multiplicative rule.
+ 梯度下降更新规则：
+ $$\Delta w = \frac{{\partial l\left( y \right)}}{{\partial {w_j}}} = \sum\limits_i {\left( {\frac{{{y_i}}}{{{\lambda _i}}}{x_{ij}} - {x_{ij}}} \right)} $$
+ (作者实际上采用multiplicative进行迭代，15-20轮收敛)
+ 
+ CTR公式：
+ $$CT{R_{ik}} = \frac{{\lambda _{ik}^{click} + \alpha }}{{\lambda _{ik}^{view} + \beta }}$$
+ 
+<ul>
+<li>符号说明：$i,j,k$分别表示用户，特征，广告类型</li>
+<li>注1:训练数据平滑，对于CTR公式的$\alpha \beta$`按每个类别计算，结果为给新用户推荐最热的类别。</li>
+<li>注2:$\lambda  = {w^T}x$为什么不用指数型$bda  = \exp \left( {{w^T}x} \right)$，使用线性形式。初衷是方便在线计算,对于新的线上用户行为，$bda ' = \lambda {\delta ^{\Delta t}} + {w_j}\Delta {x_j}$</li>
+<li>注3:为什么用NMF，W用来表示用户兴趣权重的，如果用户对某类广告不感兴趣，我们把它调为零即可。</li>
+<li>注4：对于每个特征的权重$w_kj$的初始化可以用两种方式进行，<ul>
+<li>a.类似TF-IDF：$${w_{kj}} \leftarrow \frac{{\sum\nolimits_i {\frac{{{y_{ik}}{x_{ij}}}}{{\sum\nolimits_{j'} {{x_{ij'}}} }}} }}{{\sum\nolimits_i {{x_{ij}}} }}$$</li>
+<li>b.全局类别上进行$${w_{kj}} \leftarrow \frac{{\sum\nolimits_i {\left( {{y_{ik}}{x_{ij}}} \right)\sum\nolimits_i {\left( {{y_{ik}}} \right)} } }}{{\sum\nolimits_{j'} {\left[ {\sum\nolimits_i {{y_{ik}}{x_{ij'}}} \sum\nolimits_i {{x_{ij'}}} } \right]} }}$$<br>b的思考出发点是部分类别的模型训练时间较长，给一个较适合的初值，可能使得整体迭代数据速度变快。</li>
+</ul>
+</li>
+</ul>
+<p>#####大规模数据的应用技巧<br>1.log数据的预处理，指定数据的字段抽取，以cookie为单位合并数据。<br>2.再以用户和时间为组合键，按时间间隔合并次数 ，这里时间间隔需要和模型所需一致。一个月的数据能减少到2-3TB(这里尚未进行广告分类)</p>
+<p>#####特征选择和反向索引<br>广告点击、页面浏览、和搜索query，这些特征空间比较复杂和稀疏，作者使用频次阈值进行筛选，得到（特征类型 click / search / view，实体entity，freq）组合，不选择互信息，互信息容易受数据稀疏影响。最后输出为3类特征的词典，从实验配置可以认为是ad_id、page_id、query，三种词典。得到上述词典以后，特征向量可以用(下标，值)的形式存储，下标指词典的偏移。<br>trick 1.特征过滤卡频次用cookie为单位计数的原因是防爬虫<br>trick 2.直接对特征卡频次，这样无需做排序取topN<br>trick 3.在无需排序归并的阶段，reducer可以用值排序。这样避免对复杂key进行排序，增加时耗</p>
+<p>#####生成训练集合测试集<br>如图显示，通过滑动窗口的采集方式，可以在$o(1)$的时间内完成特征数据的生成。<br><img src="upload/1472867063488.png" alt="Alt text"></p>
+<p>#####数据驱动的权重更新<br>这里主要提及下权重更新的并行化<br>
+1.通过一个稀疏矩阵D，我们想估计一个dense的权重矩阵W。给定$Y$,$X$，求得$\arg {\max _w}\log p\left( {{Y^T}|W{X^T}} \right)$的解$W^*$. （按：这里和目标log-似然函数的联系还需要再思考一下）
+2.${Y^T} \approx W{X^T}$，可以复用NMF非负矩阵分解中的高效乘法方式，通过log似然进行约束。
+a. W是dense的矩阵，因为集群节点内存限制，我们需要拆开读入。由于拆以后计算$W{X^T}$复杂度较高，引入下一步的内存caching
+b. In-memory Caching.对样本xy进行cache，预先求得cache内数据的 $\sum\nolimits_i {\frac{{{y_{ik}}{x_{ij}}}}{{{\lambda _{ik}}}}} $向后传递。
+c. 按k为key进行reduce，最后累积更新到权重$W$。伪代码在论文4.5.3节
+<br><img src="upload/1472873709199.png" alt="Alt text"></p>
+<p>#####实验部分：</p>
+<ul>
+<li>数据和参数<br>a.数据来源，广告点击，页面浏览，搜索query<br>b.效果衡量方式，1.baseline对比，见下表CTR lift，2.ROC曲线比较。60种主要BT行为</li>
+<li>基线模型： Logistic Regression，分别为两个模型的结果积在一起，一部分预测下一天的点击，一部分预测下一小时点击。<br>#####实验结果：<br>a.数据量方面：<br><img src="upload/1472876302964.png" alt="Alt text"><br>数据均分为512份，训练集不同的量带来的效果如图。<br>b.特征方面比较：<br><img src="upload/1472876288856.png" alt="Alt text"><br>（PS.之所以控制特征为ads和pages变化是因为，query在点击预估的影响比较小）<br>（之前的加速措施使得训练时间有不受特征数目显著影响的特性）<br>c.target时间窗方面比较（意义可能不大，略）：<br>d.分层抽样的效果<br>用户分三类：1.有点击行为 2.无广告点击，有广告view。3.广告点击和广告view都无<br>需要对后两类用户进行采样，第一栏的数字代表采样率。<br><img src="upload/1472878435652.png" alt="Alt text"><br>(负样本只对分母有影响，而且是提前算好的。结果看一个较小的neg采样组合一个较大的view采样可以带来一个比较好的效果)</li>
+</ul>
+<p>e.引入时间间隙，模拟训练。<br>因为在线的训练的时候，有data延迟，在特征时间窗和目标时间窗中间插入一个间隙。带来的效果对比，右边是模拟在线的时候的效果<br><img src="upload/1472878488312.png" alt="Alt text"><br>可以看到如果无间隙的时候，CTR有显著收益，说明实时的特征对CTR预估影响较大。</p>
+<p>总结：作者根据用户历史行为预测用户对不同类别广告的CTR，同时给了在大规模数据上的实现框架。<br>（summarizes by：shawn_xiao@baidu）</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;论文作者：Ye Chen, Dmitry Pavlovy, John Cannyz&lt;/p&gt;
+&lt;p&gt;用户行为定向的目的是根据用户的历史行为，来选择最合适的广告投放，按如下思路介绍：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;模型、目标、算法&lt;/li&gt;
+&lt;li&gt;大规模数据上的应用技巧&lt;ul&gt;
+
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="user targeting" scheme="http://yoursite.com/tags/user-targeting/"/>
+    
+      <category term="advertisement" scheme="http://yoursite.com/tags/advertisement/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>[笔记]Training Products of Experts by Minimizing Contrastive Divergence</title>
+    <link href="http://yoursite.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/"/>
+    <id>http://yoursite.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</id>
+    <published>2014-05-10T16:00:00.000Z</published>
+    <updated>2016-09-03T12:19:11.005Z</updated>
+    
+    <content type="html"><![CDATA[<p> 这篇文章初见在hinton 2006 A Practical Guide to Training Restricted Boltzmann Machines,下称《Guide》。《Guide》主要介绍训练DBM的算法流程和参数设置细节。在这一年，我们可以看到大牛hinton的无私贡献，单是2006年就有两篇文章《A fast learning algorithm for deep belief nets》及其附录中的论证和伪代码和SCIENCE上的大作《Reducing the Dimensionality of Data with Neural Networks》和相应的<a href="https://www.sciencemag.org/content/313/5786/504/suppl/DC1#below" target="_blank" rel="external">网站资料</a>。材料之全面，敬仰，反复研读，对训练RBM这事有了点眉目，怕自己记性不好给忘了，索性书写下来。</p>
+<h4 id="受限玻尔兹曼机和PoE"><a href="#受限玻尔兹曼机和PoE" class="headerlink" title="受限玻尔兹曼机和PoE"></a>受限玻尔兹曼机和PoE</h4><p>Restricted Boltzmann machines(RBMs)作为生成模型广泛用于很多类型数据的建模，包括有标记或者无标记图片，梅尔倒频谱系数窗(一种语音辨识中的特征表示，常称为MFCC)，文档，也有用于时序数据例如视频或者运动捕获数据、演讲。最广泛的应用还是在训练和构造深度置信网络中。</p>
+<p>RBMs通常使用contrastive divergence 算法进行训练，这个算法将是本笔记中的主要介绍内容。当然在使用中还会遇到更细节处的参数设置，诸如学习率(learning rate)、动量(momentum)、权重代价(weighted-cost)、稀疏目标(sparcity target)、权重的初始化(the initial values of the weights)、隐单元的数目(the num of hidden units)、图像子集的大小(the size of each mini-batch)，包括每一次训练中应该怎么监控训练过程、以及何时停止训练。如果遇到这些问题，请移步《Guide》进行对应查阅。</p>
+<p>假设训练图像为二值图像，在训练集上，建立一个两层的RBM，对于这个RBM而言，可见层的二值的像素点$v_i$与隐含层的二值特征监测器$h_j$建立对称加权关联。其能量式为<br>
+
+$$E({\bf{v}},{\bf{h}}) =  - \sum\limits_{i \in visible} {{a_i}{v_i}}  - \sum\limits_{j \in hidden} {{b_j}{h_j}}  - \sum\limits_{i,j} {{v_i}{h_j}{w_{ij}}} --------(1)  $$
+
+其中$v_i$,$h_j$分别是可见单元$i$和隐含单元$j$的二值状态，$a_i$，$b_j$是他们的偏置，$w_{ij}$为其权重。下图为RBM模型示意图
+
+通过能量方程，RBM为每一对可见向量和隐含向量的可能组合给出了概率分布公式：
+
+$$p({\bf{v}},{\bf{h}}) = {1 \over Z}{e^{ - E({\bf{v}},{\bf{h}})}} --------(2) $$
+
+其中，配分函数$Z$为可见单元和隐含单元所有可能组合的概率之和：$$Z = \sum\nolimits_{v,h} {{e^{ - E({\bf{v}},{\bf{h}})}}} $$。对于可见向量$v$，其概率密度函数为
+
+$$p({\bf{v}}) = {1 \over Z}\sum\limits_h^{} {{e^{ - E({\bf{v}},{\bf{h}})}}} $$
+<br>上面是关于模型的介绍，关于如何训练模型，hinton在本篇文章中用乘积叠加模型为引做了理论上的推导–<strong>PoE</strong>(Products of Experts,PoE)，和boost方法有类似之处，我理解区别主要在于boost为线性组合，PoE为非线性。对于高维空间中的数据向量，普通的单一模型(Export)可以给出部分满足其限定条件的数据向量的高概率推断。PoE通过将不同的概率模型乘积起来，可以很好地对高维数据进行拟合，最常见的例子为高斯模型的混合。作者指出，如果在混合模型中有足够多数量的单一模型，它可以准确近似表达任何光滑的分布。在拟合数据，对于混合模型的求解方法比较常用的有<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html" target="_blank" rel="external">EM算法</a>和梯度下降方法。<br>
+剩下的事情，就是如何将PoE模型拟合到数据了，这点不太好做。作者介绍了一种巧妙的方法，将优化目标，替换成了一个简单目标函数。当然会带来一定的损失，这一点我们在后面的推导里面能看到，不过，对于整个模型的训练方便而言，这样的损失是可以接受的。
+
+#### 使用最大似然法训练PoE
+
+讨论比较容易计算导数的单一模型。数据向量${\bf{d}}$在$n$个单一模型组成的PoE中的概率为：
+
+$$p({\bf{d}}|{\theta _1} \ldots {\theta _n}) = {{{\Pi _m}{p_m}({\bf{d}}|{\theta _m})} \over {\sum\nolimits_c {{\Pi _m}{p_m}({\bf{c}}|{\theta _m})} }} --------(3)$$
+
+记${\bf{d}}$为离散空间的数据向量，${\theta _m}$为单一模型$m$的所有参数，${p_m}(d|{\theta _m})$为模型$m$中${\bf{d}}$的概率，$c$表示数据空间中所有可能的数据向量
+
+将PoE拟合到一组_iid_的数据向量上，很自然就想到对每个数据向量的log似然求导，得到下面的式子：
+$${{\partial \log p({\bf{d}}|{\theta _1} \ldots {\theta _n})} \over {\partial {\theta _m}}} = {{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}} - \sum\limits_c^{} {p({\bf{c}}|{\theta _1} \ldots {\theta _n})} {{\partial \log {p_m}({\bf{c}}|{\theta _m})} \over {\partial {\theta _m}}}---(4)$$
+
+等式右边第二项数据变量$c$的log概率的导数期望（*expected derivative*）。假设每个单一模型都容易求导，对于数据变量$c$的分布而言，那么比较难的地方就在于估计数据的log概率的导数。实现的方法有多种，对于离散数据可用拒绝采样：PoE中的每个单模型分别独立生成一组数据向量，重复这个步骤直到所有的单模型结果恰好一致。拒绝采样比较形象地表达了PoE对整体概率分布的拟合，但是效率低。使用Gibbs采样的马尔科夫链蒙特卡洛MCMC方法效率更高。在Gibbs采样中，给定当前其他变量的状态，对每个变量的后验分布进行采样。对于RBM，给定了观察数据，每个模型的隐含状态可以并行更新，因为它们是条件独立的。这样的话，如果对于每个单模型也有这样的性质：在给定单模型的隐含状态，数据向量的分布也是条件独立的。那么隐含和可见变量可以形成一个二分图，这样在隐含层和可见层之间形成一个二分图，给定隐含层状态后，我们并行更新所有的数据向量(即可见层的单元)。使用Gibbs采样可以在隐含层和可见层的并行更新中趋近数据变量的真实分布。
+
+不巧的是，在采样前通过计算可以接近均衡分布虽然可行，这会带来了第二个难题。对均衡分布进行采样，由于样本来自模型的分布，会呈现出高度差异性，这种高度差异性使得导数难以计算。
+
+#### 最小化对比分歧（contrastive divergence）训练
+
+最大化数据的log-似然等价于最小化数据分布$Q^0$和均衡分布$Q^\infty $的Kullback-Liebler divergence。如前所述均衡分布$Q^\infty $来自于生成模型的Gibbs采样。
+$${Q^0}||{Q^\infty } = \sum\limits_{}^{} {Q_d^0\log Q_d^0 - \sum\limits_{}^{} {Q_d^0\log Q_d^\infty } }  =  - H({Q^0}) -  < \log Q_d^\infty { > _{{Q^0}}}$$
+
+其中||符号表示Kullback-Leibler divergence，尖括号表示下标式对应分布的期望，$H(Q^0)$为数据分布的熵。$Q^0$不依赖于模型的参数，因此在优化过程中可以忽视$H(Q^0)$。注意$Q_d^\infty$只是$p(\bf{d}|\theta_1...\theta_n)$的另一种形式。公式（4）重写为：
+
+$${< {{{\partial \log Q_d^\infty } \over {\partial {\theta _m}}}} > _{{Q^0}}} = {< {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^0}}} - {< {{{\partial \log {p_m}({\bf{c}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^\infty }}}----(5)$$
+
+经过改写后，用上式计算log-似然的最大值更简单和效率高。这个目标函数包含了另一种优化可能，我可以用最小化${Q^0}||{Q^\infty }$和${Q^1}||{Q^\infty }$的差，$Q^1$是经过一个完整Gibbs采样步骤，重建后数据向量的分布。
+
+最开始使用“constrastive divergence”的目的是我们希望通过使用Gibbs采样对Markov chain进行处理，使得初始可见层分布$Q^0$不会被改变。这样我们需要把这个chain推演到均衡分布，再与初始分布比较来求出导数。这里我们只使用一个简化版本，通过简单运行chain一次完整的Gibbs采样来更新参数，使得chain初始分布到第一步采样后的分布之间的变化下降趋势。理由是这样的，因为$Q^1$比$Q^0$距离均衡分布更近一些，我们如果可以保证“$Q^0||Q^{\infty}$ $ \ge $ $Q^1||Q^{\infty}$，等号成立的条件是$Q^0=Q^1$”，这样，contrastive divergence不会为负，在传播过程中整个markov chains都是非零概率。$Q^0=Q^1$意味着$Q^0=Q^{\infty}$，也就是说，如果模型很完美，会出现contrastive divergence为零的情况。从数值求解角度看，公式（5）里面等号右边第二项比较难算，通过换一种方式，可以避免对其直接求解：
+$$ - {\partial  \over {\partial {\theta _m}}}({Q^0}||{Q^\infty } - {Q^1}||{Q^\infty }) = {< {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^0}}} - {< {{{\partial \log {p_m}({\bf{\hat d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^1}}} + {{\partial {Q^1}} \over {\partial {\theta _m}}}{{\partial {Q^1}||{Q^\infty }} \over {\partial {Q^1}}}--(6)$$
+
+如果每个单模型容易求解，那么很容易计算出${\log {p_m}({\bf{d}}|{\theta _m})}$和${\log {p_m}({\bf{\hat d}}|{\theta _m})}$的导数。从$Q^0$和$Q^1$中采样也比较直观可行，因此等式右边前两项的值比较容易得到。$Q^1$的无偏采样流程如下
+
+1. 在数据分布$Q^0$中，选择一个数据向量，$\bf{d}$
+2. 对每一个单模型，给定数据向量$\bf{d}$，分别计算其后验概率分布
+3. 从后验概率分布中选择一个值，赋给隐含层变量
+4. 给定隐含层变量后，将每个单模型的条件分布乘积后计算可见层变量的条件分布。
+5. 从条件分布中为每个可见变量选取一个值，这些值构成了重建后的数据向量$\bf{\hat d}$
+
+公式（6）等式右边的第三项也是相当难算，大量的模拟表明，由于这项很小并极少与前两项表现出相反性质，可以被忽略。这样的话，我们只通过前两项来近似contrastive divergence的导数，可以调节模型的参数。
+$$\Delta {\theta _m} \propto {\langle {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} \rangle _{{Q^0}}} - {\langle {{{\partial \log {p_m}({\bf{\hat d}}|{\theta _m})} \over {\partial {\theta _m}}}} \rangle _{{Q^1}}}$$
+
+使用第一步重建的数据向量来代替最终的重建的概率分布是一种行之有效的方法。由于重建的过程有随机性，数据向量的导数和他们重建数据存在偏差。当PoE对数据进行建模合宜的时候，数据经过一步重建与数据向量的差别非常小。
+</p>
+<blockquote>
+<p>180eee42b02ee8102d1b4754867ea6bce1e3dd8c<br>参考文章：<br>1.Hinton G E. <a href="http://learning.cs.toronto.edu/~hinton/csc2535/readings/nccd.pdf" target="_blank" rel="external">Training products of experts by minimizing contrastive divergence</a>[J]. Neural computation, 2002, 14(8): 1771-1800.</p>
+</blockquote>
+<hr>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt; 这篇文章初见在hinton 2006 A Practical Guide to Training Restricted Boltzmann Machines,下称《Guide》。《Guide》主要介绍训练DBM的算法流程和参数设置细节。在这一年，我们可以看到大牛hinto
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://yoursite.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="RBMs" scheme="http://yoursite.com/tags/RBMs/"/>
+    
+      <category term="deep learning" scheme="http://yoursite.com/tags/deep-learning/"/>
     
   </entry>
   

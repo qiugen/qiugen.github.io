@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="default"><head><meta http-equiv="content-type" content="text/html; charset=utf-8"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport"><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="telephone=no" name="format-detection"><meta name="description" content="enjoy"><title>[笔记]Training Products of Experts by Minimizing Contrastive Divergence | Shawn其实不错</title><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/4.2.0/normalize.min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css"><link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css"><link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0"><link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css"><script type="text/javascript" src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script><link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png"><link rel="alternate" type="application/atom+xml" href="/atom.xml"></head><body><div class="body_container"><div id="header"><div class="site-name"><h1 class="hidden">[笔记]Training Products of Experts by Minimizing Contrastive Divergence</h1><a id="logo" href="/.">Shawn其实不错</a><p class="description">无止境探索，保持渴望，无所畏惧</p></div><div id="nav-menu"><a href="/." class="current"><i class="fa fa-home"> Start</i></a><a href="/archives/"><i class="fa fa-archive"> Archiv</i></a><a href="/about/"><i class="fa fa-user"> Über</i></a><a href="/atom.xml"><i class="fa fa-rss"> RSS</i></a></div></div><div id="layout" class="pure-g"><div class="pure-u-1 pure-u-md-3-4"><div class="content_container"><div class="post"><h1 class="post-title">[笔记]Training Products of Experts by Minimizing Contrastive Divergence</h1><div class="post-meta">May 11, 2014<span> | </span><span class="category"><a href="/categories/机器学习/">机器学习</a></span><script src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js" async></script><span id="busuanzi_container_page_pv"> | <span id="busuanzi_value_page_pv"></span><span> Hits</span></span></div><a data-thread-key="2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" href="/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/#comments" class="ds-thread-count"></a><div class="post-content"><p> 这篇文章初见在hinton 2006 A Practical Guide to Training Restricted Boltzmann Machines,下称《Guide》。《Guide》主要介绍训练DBM的算法流程和参数设置细节。在这一年，我们可以看到大牛hinton的无私贡献，单是2006年就有两篇文章《A fast learning algorithm for deep belief nets》及其附录中的论证和伪代码和SCIENCE上的大作《Reducing the Dimensionality of Data with Neural Networks》和相应的<a href="https://www.sciencemag.org/content/313/5786/504/suppl/DC1#below" target="_blank" rel="external">网站资料</a>。材料之全面，敬仰，反复研读，对训练RBM这事有了点眉目，怕自己记性不好给忘了，索性书写下来。</p>
+<h4 id="受限玻尔兹曼机和PoE"><a href="#受限玻尔兹曼机和PoE" class="headerlink" title="受限玻尔兹曼机和PoE"></a>受限玻尔兹曼机和PoE</h4><p>Restricted Boltzmann machines(RBMs)作为生成模型广泛用于很多类型数据的建模，包括有标记或者无标记图片，梅尔倒频谱系数窗(一种语音辨识中的特征表示，常称为MFCC)，文档，也有用于时序数据例如视频或者运动捕获数据、演讲。最广泛的应用还是在训练和构造深度置信网络中。</p>
+<p>RBMs通常使用contrastive divergence 算法进行训练，这个算法将是本笔记中的主要介绍内容。当然在使用中还会遇到更细节处的参数设置，诸如学习率(learning rate)、动量(momentum)、权重代价(weighted-cost)、稀疏目标(sparcity target)、权重的初始化(the initial values of the weights)、隐单元的数目(the num of hidden units)、图像子集的大小(the size of each mini-batch)，包括每一次训练中应该怎么监控训练过程、以及何时停止训练。如果遇到这些问题，请移步《Guide》进行对应查阅。</p>
+<p>假设训练图像为二值图像，在训练集上，建立一个两层的RBM，对于这个RBM而言，可见层的二值的像素点$v_i$与隐含层的二值特征监测器$h_j$建立对称加权关联。其能量式为<br>
+
+$$E({\bf{v}},{\bf{h}}) =  - \sum\limits_{i \in visible} {{a_i}{v_i}}  - \sum\limits_{j \in hidden} {{b_j}{h_j}}  - \sum\limits_{i,j} {{v_i}{h_j}{w_{ij}}} --------(1)  $$
+
+其中$v_i$,$h_j$分别是可见单元$i$和隐含单元$j$的二值状态，$a_i$，$b_j$是他们的偏置，$w_{ij}$为其权重。下图为RBM模型示意图
+
+通过能量方程，RBM为每一对可见向量和隐含向量的可能组合给出了概率分布公式：
+
+$$p({\bf{v}},{\bf{h}}) = {1 \over Z}{e^{ - E({\bf{v}},{\bf{h}})}} --------(2) $$
+
+其中，配分函数$Z$为可见单元和隐含单元所有可能组合的概率之和：$$Z = \sum\nolimits_{v,h} {{e^{ - E({\bf{v}},{\bf{h}})}}} $$。对于可见向量$v$，其概率密度函数为
+
+$$p({\bf{v}}) = {1 \over Z}\sum\limits_h^{} {{e^{ - E({\bf{v}},{\bf{h}})}}} $$
+<br>上面是关于模型的介绍，关于如何训练模型，hinton在本篇文章中用乘积叠加模型为引做了理论上的推导–<strong>PoE</strong>(Products of Experts,PoE)，和boost方法有类似之处，我理解区别主要在于boost为线性组合，PoE为非线性。对于高维空间中的数据向量，普通的单一模型(Export)可以给出部分满足其限定条件的数据向量的高概率推断。PoE通过将不同的概率模型乘积起来，可以很好地对高维数据进行拟合，最常见的例子为高斯模型的混合。作者指出，如果在混合模型中有足够多数量的单一模型，它可以准确近似表达任何光滑的分布。在拟合数据，对于混合模型的求解方法比较常用的有<a href="http://www.cnblogs.com/jerrylead/archive/2011/04/06/2006936.html" target="_blank" rel="external">EM算法</a>和梯度下降方法。<br>
+剩下的事情，就是如何将PoE模型拟合到数据了，这点不太好做。作者介绍了一种巧妙的方法，将优化目标，替换成了一个简单目标函数。当然会带来一定的损失，这一点我们在后面的推导里面能看到，不过，对于整个模型的训练方便而言，这样的损失是可以接受的。
+
+#### 使用最大似然法训练PoE
+
+讨论比较容易计算导数的单一模型。数据向量${\bf{d}}$在$n$个单一模型组成的PoE中的概率为：
+
+$$p({\bf{d}}|{\theta _1} \ldots {\theta _n}) = {{{\Pi _m}{p_m}({\bf{d}}|{\theta _m})} \over {\sum\nolimits_c {{\Pi _m}{p_m}({\bf{c}}|{\theta _m})} }} --------(3)$$
+
+记${\bf{d}}$为离散空间的数据向量，${\theta _m}$为单一模型$m$的所有参数，${p_m}(d|{\theta _m})$为模型$m$中${\bf{d}}$的概率，$c$表示数据空间中所有可能的数据向量
+
+将PoE拟合到一组_iid_的数据向量上，很自然就想到对每个数据向量的log似然求导，得到下面的式子：
+$${{\partial \log p({\bf{d}}|{\theta _1} \ldots {\theta _n})} \over {\partial {\theta _m}}} = {{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}} - \sum\limits_c^{} {p({\bf{c}}|{\theta _1} \ldots {\theta _n})} {{\partial \log {p_m}({\bf{c}}|{\theta _m})} \over {\partial {\theta _m}}}---(4)$$
+
+等式右边第二项数据变量$c$的log概率的导数期望（*expected derivative*）。假设每个单一模型都容易求导，对于数据变量$c$的分布而言，那么比较难的地方就在于估计数据的log概率的导数。实现的方法有多种，对于离散数据可用拒绝采样：PoE中的每个单模型分别独立生成一组数据向量，重复这个步骤直到所有的单模型结果恰好一致。拒绝采样比较形象地表达了PoE对整体概率分布的拟合，但是效率低。使用Gibbs采样的马尔科夫链蒙特卡洛MCMC方法效率更高。在Gibbs采样中，给定当前其他变量的状态，对每个变量的后验分布进行采样。对于RBM，给定了观察数据，每个模型的隐含状态可以并行更新，因为它们是条件独立的。这样的话，如果对于每个单模型也有这样的性质：在给定单模型的隐含状态，数据向量的分布也是条件独立的。那么隐含和可见变量可以形成一个二分图，这样在隐含层和可见层之间形成一个二分图，给定隐含层状态后，我们并行更新所有的数据向量(即可见层的单元)。使用Gibbs采样可以在隐含层和可见层的并行更新中趋近数据变量的真实分布。
+
+不巧的是，在采样前通过计算可以接近均衡分布虽然可行，这会带来了第二个难题。对均衡分布进行采样，由于样本来自模型的分布，会呈现出高度差异性，这种高度差异性使得导数难以计算。
+
+#### 最小化对比分歧（contrastive divergence）训练
+
+最大化数据的log-似然等价于最小化数据分布$Q^0$和均衡分布$Q^\infty $的Kullback-Liebler divergence。如前所述均衡分布$Q^\infty $来自于生成模型的Gibbs采样。
+$${Q^0}||{Q^\infty } = \sum\limits_{}^{} {Q_d^0\log Q_d^0 - \sum\limits_{}^{} {Q_d^0\log Q_d^\infty } }  =  - H({Q^0}) -  < \log Q_d^\infty { > _{{Q^0}}}$$
+
+其中||符号表示Kullback-Leibler divergence，尖括号表示下标式对应分布的期望，$H(Q^0)$为数据分布的熵。$Q^0$不依赖于模型的参数，因此在优化过程中可以忽视$H(Q^0)$。注意$Q_d^\infty$只是$p(\bf{d}|\theta_1...\theta_n)$的另一种形式。公式（4）重写为：
+
+$${< {{{\partial \log Q_d^\infty } \over {\partial {\theta _m}}}} > _{{Q^0}}} = {< {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^0}}} - {< {{{\partial \log {p_m}({\bf{c}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^\infty }}}----(5)$$
+
+经过改写后，用上式计算log-似然的最大值更简单和效率高。这个目标函数包含了另一种优化可能，我可以用最小化${Q^0}||{Q^\infty }$和${Q^1}||{Q^\infty }$的差，$Q^1$是经过一个完整Gibbs采样步骤，重建后数据向量的分布。
+
+最开始使用“constrastive divergence”的目的是我们希望通过使用Gibbs采样对Markov chain进行处理，使得初始可见层分布$Q^0$不会被改变。这样我们需要把这个chain推演到均衡分布，再与初始分布比较来求出导数。这里我们只使用一个简化版本，通过简单运行chain一次完整的Gibbs采样来更新参数，使得chain初始分布到第一步采样后的分布之间的变化下降趋势。理由是这样的，因为$Q^1$比$Q^0$距离均衡分布更近一些，我们如果可以保证“$Q^0||Q^{\infty}$ $ \ge $ $Q^1||Q^{\infty}$，等号成立的条件是$Q^0=Q^1$”，这样，contrastive divergence不会为负，在传播过程中整个markov chains都是非零概率。$Q^0=Q^1$意味着$Q^0=Q^{\infty}$，也就是说，如果模型很完美，会出现contrastive divergence为零的情况。从数值求解角度看，公式（5）里面等号右边第二项比较难算，通过换一种方式，可以避免对其直接求解：
+$$ - {\partial  \over {\partial {\theta _m}}}({Q^0}||{Q^\infty } - {Q^1}||{Q^\infty }) = {< {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^0}}} - {< {{{\partial \log {p_m}({\bf{\hat d}}|{\theta _m})} \over {\partial {\theta _m}}}} > _{{Q^1}}} + {{\partial {Q^1}} \over {\partial {\theta _m}}}{{\partial {Q^1}||{Q^\infty }} \over {\partial {Q^1}}}--(6)$$
+
+如果每个单模型容易求解，那么很容易计算出${\log {p_m}({\bf{d}}|{\theta _m})}$和${\log {p_m}({\bf{\hat d}}|{\theta _m})}$的导数。从$Q^0$和$Q^1$中采样也比较直观可行，因此等式右边前两项的值比较容易得到。$Q^1$的无偏采样流程如下
+
+1. 在数据分布$Q^0$中，选择一个数据向量，$\bf{d}$
+2. 对每一个单模型，给定数据向量$\bf{d}$，分别计算其后验概率分布
+3. 从后验概率分布中选择一个值，赋给隐含层变量
+4. 给定隐含层变量后，将每个单模型的条件分布乘积后计算可见层变量的条件分布。
+5. 从条件分布中为每个可见变量选取一个值，这些值构成了重建后的数据向量$\bf{\hat d}$
+
+公式（6）等式右边的第三项也是相当难算，大量的模拟表明，由于这项很小并极少与前两项表现出相反性质，可以被忽略。这样的话，我们只通过前两项来近似contrastive divergence的导数，可以调节模型的参数。
+$$\Delta {\theta _m} \propto {\langle {{{\partial \log {p_m}({\bf{d}}|{\theta _m})} \over {\partial {\theta _m}}}} \rangle _{{Q^0}}} - {\langle {{{\partial \log {p_m}({\bf{\hat d}}|{\theta _m})} \over {\partial {\theta _m}}}} \rangle _{{Q^1}}}$$
+
+使用第一步重建的数据向量来代替最终的重建的概率分布是一种行之有效的方法。由于重建的过程有随机性，数据向量的导数和他们重建数据存在偏差。当PoE对数据进行建模合宜的时候，数据经过一步重建与数据向量的差别非常小。
+</p>
+<blockquote>
+<p>180eee42b02ee8102d1b4754867ea6bce1e3dd8c<br>参考文章：<br>1.Hinton G E. <a href="http://learning.cs.toronto.edu/~hinton/csc2535/readings/nccd.pdf" target="_blank" rel="external">Training products of experts by minimizing contrastive divergence</a>[J]. Neural computation, 2002, 14(8): 1771-1800.</p>
+</blockquote>
+<hr>
+</div><script type="text/javascript" src="/js/share.js?v=0.0.0" async></script><a data-url="http://yoursite.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" data-id="cisn61o8o0001r8lpjpnpqqcq" class="article-share-link">Aktie</a><div class="tags"><a href="/tags/RBMs/">RBMs</a><a href="/tags/deep-learning/">deep learning</a></div><div class="post-nav"><a href="/2016/09/03/Large-scale-behavioral-user-targeting/" class="pre">[笔记]Large-scale behavioral user targeting</a></div><div data-thread-key="2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" data-title="[笔记]Training Products of Experts by Minimizing Contrastive Divergence" data-url="http://yoursite.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" class="ds-share flat"><div class="ds-share-inline"><ul class="ds-share-icons-16"><li data-toggle="ds-share-icons-more"><a href="javascript:void(0);" class="ds-more">分享到：</a></li><li><a href="javascript:void(0);" data-service="weibo" class="ds-weibo">微博</a></li><li><a href="javascript:void(0);" data-service="qzone" class="ds-qzone">QQ空间</a></li><li><a href="javascript:void(0);" data-service="qqt" class="ds-qqt">腾讯微博</a></li><li><a href="javascript:void(0);" data-service="wechat" class="ds-wechat">微信</a></li></ul><div class="ds-share-icons-more"></div></div></div><div data-thread-key="2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" data-title="[笔记]Training Products of Experts by Minimizing Contrastive Divergence" data-url="http://yoursite.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/" data-author-key="1" class="ds-thread"></div></div></div></div><div class="pure-u-1-4 hidden_mid_and_down"><div id="sidebar"><div class="widget"><form action="//www.baidu.com/baidu" method="get" accept-charset="utf-8" target="_blank" class="search-form"><input type="search" name="word" maxlength="20" placeholder="Search"/><input type="hidden" name="si" value="http://yoursite.com"/><input name="tn" type="hidden" value="bds"/><input name="cl" type="hidden" value="3"/><input name="ct" type="hidden" value="2097152"/><input name="s" type="hidden" value="on"/></form></div><div class="widget"><div class="widget-title"><i class="fa fa-folder-o"> Kategorien</i></div><ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/机器学习/">机器学习</a></li></ul></div><div class="widget"><div class="widget-title"><i class="fa fa-star-o"> Tags</i></div><div class="tagcloud"><a href="/tags/user-targeting/" style="font-size: 15px;">user targeting</a> <a href="/tags/advertisement/" style="font-size: 15px;">advertisement</a> <a href="/tags/RBMs/" style="font-size: 15px;">RBMs</a> <a href="/tags/deep-learning/" style="font-size: 15px;">deep learning</a></div></div><div class="widget"><div class="widget-title"><i class="fa fa-file-o"> Letzte</i></div><ul class="post-list"><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/徐志摩诗一首/">再休怪我的脸沉</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/hello-world/">Hello World</a></li><li class="post-list-item"><a class="post-list-link" href="/2016/09/03/Large-scale-behavioral-user-targeting/">[笔记]Large-scale behavioral user targeting</a></li><li class="post-list-item"><a class="post-list-link" href="/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/">[笔记]Training Products of Experts by Minimizing Contrastive Divergence</a></li></ul></div><div class="widget"><div class="comments-title"><i class="fa fa-comment-o"> Letzte Kommentare</i></div><div data-num-items="5" data-show-avatars="0" data-show-time="1" data-show-admin="0" data-excerpt-length="32" data-show-title="1" class="ds-recent-comments"></div></div><div class="widget"><div class="widget-title"><i class="fa fa-external-link"> Blogroll</i></div><ul></ul><a href="http://www.example1.com/" title="site-name1" target="_blank">site-name1</a><ul></ul><a href="http://www.example2.com/" title="site-name2" target="_blank">site-name2</a><ul></ul><a href="http://www.example3.com/" title="site-name3" target="_blank">site-name3</a></div></div></div><div class="pure-u-1 pure-u-md-3-4"><div id="footer">© <a href="/." rel="nofollow">Shawn其实不错.</a> Powered by<a rel="nofollow" target="_blank" href="https://hexo.io"> Hexo.</a><a rel="nofollow" target="_blank" href="https://github.com/tufu9441/maupassant-hexo"> Theme</a> by<a rel="nofollow" target="_blank" href="https://github.com/pagecho"> Cho.</a></div></div></div><a id="rocket" href="#top" class="show"></a><script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script><script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script><script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script><link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0"><script>var duoshuoQuery = {short_name:'qiugen'};
+(function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0]
+        || document.getElementsByTagName('body')[0]).appendChild(ds);
+})();
+</script><script type="text/x-mathjax-config">MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+  });
+</script><script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML" async></script><script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script><script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script></div></body></html>
