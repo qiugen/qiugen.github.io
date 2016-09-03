@@ -4,9 +4,9 @@
   <subtitle>无止境探索，保持渴望，无所畏惧</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://qiugen.github.io/"/>
+  <link href="https://qiugen.github.io/"/>
   <updated>2016-09-03T13:44:24.144Z</updated>
-  <id>http://qiugen.github.io/</id>
+  <id>https://qiugen.github.io/</id>
   
   <author>
     <name>shawn_xiao@baidu</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>[笔记]Large-scale behavioral user targeting</title>
-    <link href="http://qiugen.github.io/2016/09/03/Large-scale-behavioral-user-targeting/"/>
-    <id>http://qiugen.github.io/2016/09/03/Large-scale-behavioral-user-targeting/</id>
+    <link href="https://qiugen.github.io/2016/09/03/Large-scale-behavioral-user-targeting/"/>
+    <id>https://qiugen.github.io/2016/09/03/Large-scale-behavioral-user-targeting/</id>
     <published>2016-09-02T16:00:00.000Z</published>
     <updated>2016-09-03T13:44:24.144Z</updated>
     
@@ -98,19 +98,19 @@ c. &#x6309;k&#x4E3A;key&#x8FDB;&#x884C;reduce&#xFF0C;&#x6700;&#x540E;&#x7D2F;&#x
     
     </summary>
     
-      <category term="机器学习" scheme="http://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="机器学习" scheme="https://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="user targeting" scheme="http://qiugen.github.io/tags/user-targeting/"/>
+      <category term="user targeting" scheme="https://qiugen.github.io/tags/user-targeting/"/>
     
-      <category term="advertisement" scheme="http://qiugen.github.io/tags/advertisement/"/>
+      <category term="advertisement" scheme="https://qiugen.github.io/tags/advertisement/"/>
     
   </entry>
   
   <entry>
     <title>[笔记]Training Products of Experts by Minimizing Contrastive Divergence</title>
-    <link href="http://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/"/>
-    <id>http://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</id>
+    <link href="https://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/"/>
+    <id>https://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</id>
     <published>2014-05-10T16:00:00.000Z</published>
     <updated>2016-09-03T12:19:11.005Z</updated>
     
@@ -187,19 +187,19 @@ $$\Delta {\theta _m} \propto {\langle {{{\partial \log {p_m}({\bf{d}}|{\theta _m
     
     </summary>
     
-      <category term="机器学习" scheme="http://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+      <category term="机器学习" scheme="https://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="RBMs" scheme="http://qiugen.github.io/tags/RBMs/"/>
+      <category term="RBMs" scheme="https://qiugen.github.io/tags/RBMs/"/>
     
-      <category term="deep learning" scheme="http://qiugen.github.io/tags/deep-learning/"/>
+      <category term="deep learning" scheme="https://qiugen.github.io/tags/deep-learning/"/>
     
   </entry>
   
   <entry>
     <title>再休怪我的脸沉</title>
-    <link href="http://qiugen.github.io/2013/05/29/%E5%BE%90%E5%BF%97%E6%91%A9%E8%AF%97%E4%B8%80%E9%A6%96/"/>
-    <id>http://qiugen.github.io/2013/05/29/徐志摩诗一首/</id>
+    <link href="https://qiugen.github.io/2013/05/29/%E5%BE%90%E5%BF%97%E6%91%A9%E8%AF%97%E4%B8%80%E9%A6%96/"/>
+    <id>https://qiugen.github.io/2013/05/29/徐志摩诗一首/</id>
     <published>2013-05-28T16:00:00.000Z</published>
     <updated>2016-09-03T13:39:57.627Z</updated>
     
