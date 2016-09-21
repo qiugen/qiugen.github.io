@@ -2,9 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</loc>
+    
+    <lastmod>2016-09-21T16:45:07.021Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://qiugen.github.io/2016/09/18/gbRank-logsitRank-from-up-to-bottom/</loc>
     
-    <lastmod>2016-09-18T13:43:55.810Z</lastmod>
+    <lastmod>2016-09-20T13:58:51.167Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://qiugen.github.io/2014/03/02/naive-bayes-classify/</loc>
+    
+    <lastmod>2016-09-18T13:46:25.756Z</lastmod>
     
   </url>
   
@@ -40,20 +54,6 @@
     <loc>https://qiugen.github.io/about/index.html</loc>
     
     <lastmod>2016-09-11T10:17:43.155Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://qiugen.github.io/2014/03/02/naive-bayes-classify/</loc>
-    
-    <lastmod>2016-09-04T16:31:58.091Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://qiugen.github.io/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</loc>
-    
-    <lastmod>2016-09-03T12:19:11.005Z</lastmod>
     
   </url>
   
