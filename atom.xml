@@ -434,13 +434,13 @@ $$DC{G_N} = \sum\limits_{i = 1}^N {{{{G_i}} \over {{{\log }_2}\left( {i + 1} \ri
       <category term="机器学习" scheme="https://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
+      <category term="deep learning" scheme="https://qiugen.github.io/tags/deep-learning/"/>
+    
       <category term="learning to rank" scheme="https://qiugen.github.io/tags/learning-to-rank/"/>
     
       <category term="query rewriting" scheme="https://qiugen.github.io/tags/query-rewriting/"/>
     
       <category term="semantic matching" scheme="https://qiugen.github.io/tags/semantic-matching/"/>
-    
-      <category term="deep learning" scheme="https://qiugen.github.io/tags/deep-learning/"/>
     
   </entry>
   
@@ -612,9 +612,9 @@ $${&lt; {{{\partial \log Q_d^\infty } \over {\partial {\theta _m}}}} &gt; _{{Q^0
       <category term="机器学习" scheme="https://qiugen.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="deep learning" scheme="https://qiugen.github.io/tags/deep-learning/"/>
-    
       <category term="RBMs" scheme="https://qiugen.github.io/tags/RBMs/"/>
+    
+      <category term="deep learning" scheme="https://qiugen.github.io/tags/deep-learning/"/>
     
   </entry>
   
