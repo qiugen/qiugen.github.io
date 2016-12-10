@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mlnote.com/2016/12/10/SyntaxNet%20Neural-Models-of-Syntax/</loc>
+    
+    <lastmod>2016-12-10T13:13:28.063Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mlnote.com/2016/11/18/The-realization-of-GBDT-in-LightGBM-and-FastDBT/</loc>
     
-    <lastmod>2016-11-17T17:09:30.171Z</lastmod>
+    <lastmod>2016-11-26T02:56:56.101Z</lastmod>
     
   </url>
   
