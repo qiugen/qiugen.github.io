@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://mlnote.com/"/>
-  <updated>2016-12-18T15:07:37.638Z</updated>
+  <updated>2016-12-18T15:11:26.818Z</updated>
   <id>https://mlnote.com/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>Word Embedding阅读笔记</title>
+    <title>Word Embedding札记</title>
     <link href="https://mlnote.com/2016/12/18/Reading-Notes-of-Word-Embedding/"/>
     <id>https://mlnote.com/2016/12/18/Reading-Notes-of-Word-Embedding/</id>
     <published>2016-12-17T16:00:00.000Z</published>
-    <updated>2016-12-18T15:07:37.638Z</updated>
+    <updated>2016-12-18T15:11:26.818Z</updated>
     
     <content type="html"><![CDATA[<p>&#x5982;&#x4F55;&#x5229;&#x7528;&#x6587;&#x672C;&#x7684;&#x4E0A;&#x4E0B;&#x6587;&#x4FE1;&#x606F;&#xFF0C;&#x5F97;&#x5230;&#x66F4;&#x6709;&#x610F;&#x4E49;&#x7684;&#x5411;&#x91CF;&#x8868;&#x8FBE;(word embedding)&#xFF0C;&#x662F;NLP&#x9886;&#x57DF;&#x7814;&#x7A76;&#x7684;&#x91CD;&#x70B9;&#x3002;&#x672C;&#x7BC7;&#x7B14;&#x8BB0;&#x76EE;&#x7684;&#x5728;&#x4E8E;&#x6574;&#x7406;&#x8BCD;&#x5411;&#x91CF;&#x7684;&#x53D1;&#x5C55;&#x5386;&#x7A0B;&#xFF0C;&#x65B9;&#x4FBF;&#x7406;&#x89E3;&#x4EC0;&#x4E48;&#x662F;&#x8BCD;&#x5411;&#x91CF;&#xFF0C;&#x600E;&#x4E48;&#x5F97;&#x5230;&#x8BCD;&#x5411;&#x91CF;&#x3002;&#x8BCD;&#x5411;&#x91CF;&#x4E5F;&#x53EB;&#x8BCD;&#x7684;&#x5206;&#x5E03;&#x5F0F;&#x8868;&#x8FBE;&#xFF0C;&#x4E3B;&#x8981;&#x6709;&#x4E09;&#x7C7B;&#x65B9;&#x6CD5;&#xFF1A;&#x805A;&#x7C7B;&#xFF0C;&#x77E9;&#x9635;&#x5206;&#x89E3;&#xFF0C;&#x795E;&#x7ECF;&#x7F51;&#x7EDC;&#x3002;</p>
 <h4 id="&#x57FA;&#x4E8E;&#x805A;&#x7C7B;&#x7684;&#x5206;&#x5E03;&#x8868;&#x793A;-clusteringbased-word-representation"><a href="#&#x57FA;&#x4E8E;&#x805A;&#x7C7B;&#x7684;&#x5206;&#x5E03;&#x8868;&#x793A;-clusteringbased-word-representation" class="headerlink" title="&#x57FA;&#x4E8E;&#x805A;&#x7C7B;&#x7684;&#x5206;&#x5E03;&#x8868;&#x793A;(clusteringbased word representation)"></a>&#x57FA;&#x4E8E;&#x805A;&#x7C7B;&#x7684;&#x5206;&#x5E03;&#x8868;&#x793A;(clusteringbased word representation)</h4><p>&#x8FD9;&#x7C7B;&#x65B9;&#x6CD5;&#x901A;&#x8FC7;&#x805A;&#x7C7B;&#x5C06;&#x8BCD;&#x548C;&#x7C7B;&#x7684;&#x6807;&#x7B7E;&#x5EFA;&#x7ACB;&#x5173;&#x8054;&#xFF0C;&#x5173;&#x8054;&#x5173;&#x7CFB;&#x53EF;&#x4EE5;&#x662F;&#x786E;&#x5B9A;&#x6027;&#x4E5F;&#x53EF;&#x4EE5;&#x662F;&#x6982;&#x7387;&#x8868;&#x793A;&#xFF0C;&#x7528;&#x8FD9;&#x79CD;&#x65B9;&#x5F0F;&#x6784;&#x5EFA;&#x8BCD;&#x4E0E;&#x5176;&#x4E0A;&#x4E0B;&#x6587;&#x4E4B;&#x95F4;&#x7684;&#x5173;&#x7CFB;&#x3002;&#x76F8;&#x5173;&#x5DE5;&#x4F5C;&#x6709;(Brown, 1992)[10], (Ney, 1993)[35], (Niesler, 1998)[36]&#x3002;&#x5E03;&#x6717;&#x805A;&#x7C7B;(Brown, 1992)[10]&#x662F;&#x4E00;&#x79CD;&#x5C42;&#x7EA7;&#x805A;&#x7C7B;&#x65B9;&#x6CD5;&#xFF0C;&#x805A;&#x7C7B;&#x7ED3;&#x679C;&#x4E3A;&#x6BCF;&#x4E2A;&#x8BCD;&#x7684;&#x591A;&#x5C42;&#x7C7B;&#x522B;&#x4F53;&#x7CFB;&#x3002;&#x53EF;&#x4EE5;&#x6839;&#x636E;&#x4E24;&#x4E2A;&#x8BCD;&#x7684;&#x516C;&#x5171;&#x7C7B;&#x522B;&#x5224;&#x65AD;&#x8FD9;&#x4E24;&#x4E2A;&#x8BCD;&#x7684;&#x8BED;&#x4E49;&#x76F8;&#x4F3C;&#x5EA6;&#x3002;</p>
@@ -200,9 +200,9 @@
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
-    
       <category term="fastBDT" scheme="https://mlnote.com/tags/fastBDT/"/>
+    
+      <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
     
       <category term="lightGBM" scheme="https://mlnote.com/tags/lightGBM/"/>
     
@@ -257,9 +257,9 @@
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="xgboost" scheme="https://mlnote.com/tags/xgboost/"/>
-    
       <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
+    
+      <category term="xgboost" scheme="https://mlnote.com/tags/xgboost/"/>
     
       <category term="code mannar" scheme="https://mlnote.com/tags/code-mannar/"/>
     
@@ -346,9 +346,9 @@
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="xgboost" scheme="https://mlnote.com/tags/xgboost/"/>
-    
       <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
+    
+      <category term="xgboost" scheme="https://mlnote.com/tags/xgboost/"/>
     
   </entry>
   
