@@ -2,9 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://mlnote.com/about/index.html</loc>
+    
+    <lastmod>2017-04-09T15:39:32.643Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://mlnote.com/2017/04/09/Reading-Notes-of-Error-Correction/</loc>
     
-    <lastmod>2017-04-09T15:35:56.406Z</lastmod>
+    <lastmod>2017-04-09T15:37:39.666Z</lastmod>
     
   </url>
   
@@ -19,13 +26,6 @@
     <loc>https://mlnote.com/2016/12/20/Neural-Network-Batch-Normalization-and-Caffe-Code/</loc>
     
     <lastmod>2016-12-20T14:54:48.884Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://mlnote.com/about/index.html</loc>
-    
-    <lastmod>2016-12-20T14:50:51.561Z</lastmod>
     
   </url>
   
