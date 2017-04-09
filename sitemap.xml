@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://mlnote.com/about/index.html</loc>
-    
-    <lastmod>2017-04-09T15:39:32.643Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://mlnote.com/2017/04/09/Reading-Notes-of-Error-Correction/</loc>
     
-    <lastmod>2017-04-09T15:37:39.666Z</lastmod>
+    <lastmod>2017-04-09T15:43:37.763Z</lastmod>
     
   </url>
   
   <url>
     <loc>https://mlnote.com/2016/12/18/Reading-Notes-of-Word-Embedding/</loc>
     
-    <lastmod>2016-12-25T13:56:12.655Z</lastmod>
+    <lastmod>2017-04-09T15:43:19.785Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://mlnote.com/about/index.html</loc>
+    
+    <lastmod>2017-04-09T15:39:32.643Z</lastmod>
     
   </url>
   
