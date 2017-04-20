@@ -677,9 +677,9 @@
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
-    
       <category term="learning to rank" scheme="https://mlnote.com/tags/learning-to-rank/"/>
+    
+      <category term="gbdt" scheme="https://mlnote.com/tags/gbdt/"/>
     
       <category term="gradient boosting framework" scheme="https://mlnote.com/tags/gradient-boosting-framework/"/>
     
@@ -827,42 +827,13 @@ $$DC{G_N} = \sum\limits_{i = 1}^N {{{{G_i}} \over {{{\log }_2}\left( {i + 1} \ri
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="deep learning" scheme="https://mlnote.com/tags/deep-learning/"/>
-    
       <category term="learning to rank" scheme="https://mlnote.com/tags/learning-to-rank/"/>
     
       <category term="query rewriting" scheme="https://mlnote.com/tags/query-rewriting/"/>
     
       <category term="semantic matching" scheme="https://mlnote.com/tags/semantic-matching/"/>
     
-  </entry>
-  
-  <entry>
-    <title>解决hexo(jekyll) mathjex 插入公式后渲染问题</title>
-    <link href="https://mlnote.com/2016/09/03/solved-mathjex-problem/"/>
-    <id>https://mlnote.com/2016/09/03/solved-mathjex-problem/</id>
-    <published>2016-09-02T16:00:00.000Z</published>
-    <updated>2016-11-17T16:40:03.063Z</updated>
-    
-    <content type="html"><![CDATA[<p>&#x7531;&#x4E8E;latex&#x516C;&#x5F0F;&#x4E2D;&#x7ECF;&#x5E38;&#x6709;&#x4E24;&#x4E2A;&#x82B1;&#x62EC;&#x53F7;&#x201C;{{&#x201D;&#x5B58;&#x5728;&#xFF0C;&#x800C;jekyll&#x548C;hexo&#x90FD;&#x4F1A;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x6837;&#x5F0F;<br>&#x5BFC;&#x81F4;&#x5982;&#x4E0B;&#x62A5;&#x9519;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FATAL (unknown path) [Line 2, Column 166]</div><div class="line">  parseAggregate: expected colon after dict key</div><div class="line">Template render error: (unknown path) [Line 2, Column 166]</div><div class="line">  parseAggregate: expected colon after dict key</div></pre></td></tr></table></figure></p>
-<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x9700;&#x8981;&#x5728;&#x516C;&#x5F0F;&#x524D;&#x540E;&#x63D2;&#x5165;:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">{% raw %}</div><div class="line">$<span class="variable">${X_k}</span> = \{{x_1},{x_2},...,{x_n}\} $$</div><div class="line">{% endraw %}</div></pre></td></tr></table></figure></p>
-$${X_k} = \{ {x_1},{x_2},...,{x_n}\} $$
-<p>&#x5F53;&#x7136;&#xFF0C;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x516C;&#x5F0F;&#x52A8;&#x5219;&#x5341;&#x6570;&#x8BA1;&#xFF0C;&#x9010;&#x4E00;&#x6DFB;&#x52A0;&#xFF0C;&#x6548;&#x7387;&#x8F83;&#x4F4E;&#x3002;&#x4E3A;&#x4E86;&#x628A;&#x81EA;&#x5DF1;&#x4ECE;&#x516C;&#x5F0F;&#x7684;&#x683C;&#x5F0F;&#x8C03;&#x6574;&#x4E2D;&#x89E3;&#x653E;&#x51FA;&#x6765;&#xFF0C;&#x4E13;&#x6CE8;&#x5199;&#x6587;&#x5B57;&#x3002;<br>&#x535A;&#x4E3B;&#x5199;&#x4E86;&#x4E2A;python&#x811A;&#x672C;&#xFF1A;convert_formula.py&#xFF0C;&#x5728;&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x6DFB;&#x52A0;raw&#x6807;&#x8BB0;&#x5BF9;(&#x7B2C;&#x4E00;&#x6B21;&#x5728;win7&#x4E2D;&#x7528;&#x8BB0;&#x4E8B;&#x672C;&#x5199;&#x811A;&#x672C;)&#x3002;<br>&#x4E91;&#x76D8;&#xFF1A;<a href="http://pan.baidu.com/s/1hr7xo00" target="_blank" rel="external">http://pan.baidu.com/s/1hr7xo00</a><br>github: <a href="https://github.com/qiugen/tools.git" target="_blank" rel="external">https://github.com/qiugen/tools.git</a></p>
-<p>ShawnXiao@baidu</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;&amp;#x7531;&amp;#x4E8E;latex&amp;#x516C;&amp;#x5F0F;&amp;#x4E2D;&amp;#x7ECF;&amp;#x5E38;&amp;#x6709;&amp;#x4E24;&amp;#x4E2A;&amp;#x82B1;&amp;#x62EC;&amp;#x53F7;&amp;#x201C;{{&amp;#x201D;&amp;#x5B58;&amp;#
-    
-    </summary>
-    
-      <category term="其他" scheme="https://mlnote.com/categories/%E5%85%B6%E4%BB%96/"/>
-    
-    
-      <category term="hexo" scheme="https://mlnote.com/tags/hexo/"/>
-    
-      <category term="mathjex 公式" scheme="https://mlnote.com/tags/mathjex-%E5%85%AC%E5%BC%8F/"/>
+      <category term="deep learning" scheme="https://mlnote.com/tags/deep-learning/"/>
     
   </entry>
   
@@ -954,6 +925,35 @@ $$l\left( y \right) = \log L\left( y \right) = \sum\limits_i^{} {\left( {{y_i}\l
   </entry>
   
   <entry>
+    <title>解决hexo(jekyll) mathjex 插入公式后渲染问题</title>
+    <link href="https://mlnote.com/2016/09/03/solved-mathjex-problem/"/>
+    <id>https://mlnote.com/2016/09/03/solved-mathjex-problem/</id>
+    <published>2016-09-02T16:00:00.000Z</published>
+    <updated>2016-11-17T16:40:03.063Z</updated>
+    
+    <content type="html"><![CDATA[<p>&#x7531;&#x4E8E;latex&#x516C;&#x5F0F;&#x4E2D;&#x7ECF;&#x5E38;&#x6709;&#x4E24;&#x4E2A;&#x82B1;&#x62EC;&#x53F7;&#x201C;{{&#x201D;&#x5B58;&#x5728;&#xFF0C;&#x800C;jekyll&#x548C;hexo&#x90FD;&#x4F1A;&#x89E3;&#x6790;&#x8FD9;&#x4E2A;&#x6837;&#x5F0F;<br>&#x5BFC;&#x81F4;&#x5982;&#x4E0B;&#x62A5;&#x9519;&#xFF1A;<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">FATAL (unknown path) [Line 2, Column 166]</div><div class="line">  parseAggregate: expected colon after dict key</div><div class="line">Template render error: (unknown path) [Line 2, Column 166]</div><div class="line">  parseAggregate: expected colon after dict key</div></pre></td></tr></table></figure></p>
+<p>&#x8FD9;&#x4E2A;&#x65F6;&#x5019;&#x9700;&#x8981;&#x5728;&#x516C;&#x5F0F;&#x524D;&#x540E;&#x63D2;&#x5165;:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">{% raw %}</div><div class="line">$<span class="variable">${X_k}</span> = \{{x_1},{x_2},...,{x_n}\} $$</div><div class="line">{% endraw %}</div></pre></td></tr></table></figure></p>
+$${X_k} = \{ {x_1},{x_2},...,{x_n}\} $$
+<p>&#x5F53;&#x7136;&#xFF0C;&#x4E00;&#x7BC7;&#x6587;&#x7AE0;&#x516C;&#x5F0F;&#x52A8;&#x5219;&#x5341;&#x6570;&#x8BA1;&#xFF0C;&#x9010;&#x4E00;&#x6DFB;&#x52A0;&#xFF0C;&#x6548;&#x7387;&#x8F83;&#x4F4E;&#x3002;&#x4E3A;&#x4E86;&#x628A;&#x81EA;&#x5DF1;&#x4ECE;&#x516C;&#x5F0F;&#x7684;&#x683C;&#x5F0F;&#x8C03;&#x6574;&#x4E2D;&#x89E3;&#x653E;&#x51FA;&#x6765;&#xFF0C;&#x4E13;&#x6CE8;&#x5199;&#x6587;&#x5B57;&#x3002;<br>&#x535A;&#x4E3B;&#x5199;&#x4E86;&#x4E2A;python&#x811A;&#x672C;&#xFF1A;convert_formula.py&#xFF0C;&#x5728;&#x516C;&#x5F0F;&#x81EA;&#x52A8;&#x6DFB;&#x52A0;raw&#x6807;&#x8BB0;&#x5BF9;(&#x7B2C;&#x4E00;&#x6B21;&#x5728;win7&#x4E2D;&#x7528;&#x8BB0;&#x4E8B;&#x672C;&#x5199;&#x811A;&#x672C;)&#x3002;<br>&#x4E91;&#x76D8;&#xFF1A;<a href="http://pan.baidu.com/s/1hr7xo00" target="_blank" rel="external">http://pan.baidu.com/s/1hr7xo00</a><br>github: <a href="https://github.com/qiugen/tools.git" target="_blank" rel="external">https://github.com/qiugen/tools.git</a></p>
+<p>ShawnXiao@baidu</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&amp;#x7531;&amp;#x4E8E;latex&amp;#x516C;&amp;#x5F0F;&amp;#x4E2D;&amp;#x7ECF;&amp;#x5E38;&amp;#x6709;&amp;#x4E24;&amp;#x4E2A;&amp;#x82B1;&amp;#x62EC;&amp;#x53F7;&amp;#x201C;{{&amp;#x201D;&amp;#x5B58;&amp;#
+    
+    </summary>
+    
+      <category term="其他" scheme="https://mlnote.com/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="hexo" scheme="https://mlnote.com/tags/hexo/"/>
+    
+      <category term="mathjex 公式" scheme="https://mlnote.com/tags/mathjex-%E5%85%AC%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>[笔记]Training Products of Experts by Minimizing Contrastive Divergence</title>
     <link href="https://mlnote.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/"/>
     <id>https://mlnote.com/2014/05/11/Training-Products-of-Experts-by-Minimizing-Contrastive-Divergence/</id>
@@ -1006,9 +1006,9 @@ $${&lt; {{{\partial \log Q_d^\infty } \over {\partial {\theta _m}}}} &gt; _{{Q^0
       <category term="机器学习" scheme="https://mlnote.com/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
     
     
-      <category term="RBMs" scheme="https://mlnote.com/tags/RBMs/"/>
-    
       <category term="deep learning" scheme="https://mlnote.com/tags/deep-learning/"/>
+    
+      <category term="RBMs" scheme="https://mlnote.com/tags/RBMs/"/>
     
   </entry>
   
